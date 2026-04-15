@@ -127,7 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  applyFilter(); // initial render
+  // Use rAF so CSS grid has settled before we hide items
+  requestAnimationFrame(() => { applyFilter(); });
 
   /* ============================================================
      LIGHTBOX
@@ -272,12 +273,12 @@ document.addEventListener('DOMContentLoaded', () => {
   revealEls.forEach(el => revealObserver.observe(el));
 
   // Add reveal classes to key elements dynamically
+  // NOTE: gallery-item is excluded — the hidden/show logic handles those
   const addReveals = () => {
     const selectors = [
       '.about-image-wrap', '.about-content',
       '.vm-card',
       '.service-card',
-      '.gallery-item',
       '.client-logo-wrap',
       '.contact-info', '.contact-form',
       '.footer-brand', '.footer-col'
